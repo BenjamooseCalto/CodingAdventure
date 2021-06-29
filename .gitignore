@@ -3,3 +3,4 @@ WoW/tools/
 Game/
 CPP/Resources/
 Python/slasherBot/.env
+*.code-workspace
