@@ -1,5 +1,5 @@
-WoW/ref
-WoW/tools
-Game
-CPP/Resources
-Python/slasherBot/.env
+$GIT_DIR/WoW/ref
+$GIT_DIR/WoW/tools
+$GIT_DIR/Game
+$GIT_DIR/CPP/Resources
+$GIT_DIR/Python/slasherBot/.env
