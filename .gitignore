@@ -1,6 +1,4 @@
-WoW/ref/
-WoW/tools/
+**/ref/
 Game/
-CPP/Resources/
 Python/slasherBot/.env
 *.code-workspace
