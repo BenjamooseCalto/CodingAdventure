@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "Python"
+		},
+		{
+			"path": "Python\\sudoku"
+		},
+		{
+			"path": "Tensorflow"
+		}
+	],
+	"settings": {
+		"python.pythonPath": "C:\\Program Files\\Python39\\python.exe"
+	}
+}
