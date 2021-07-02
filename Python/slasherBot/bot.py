@@ -87,4 +87,23 @@ async def dumpmessages(ctx):
                     pass
         data.close()
 
+@bot.event
+async def on_message(ctx):
+    guild = ctx.guild
+    channel = ctx.channel
+    fileName = f'slasherBot/data/{str(guild)}_{str(channel.name)}.txt'
+    data = open(fileName, 'a')
+    async for message in channel.history():
+        content = str(message.content) + '\n'
+        if '<:' in content:
+            pass
+        elif content == '\n':
+            pass
+        else:
+            try: 
+                data.write(content)
+            except:
+                pass
+        data.close()
+        
 bot.run(token)
