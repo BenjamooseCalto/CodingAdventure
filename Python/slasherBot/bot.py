@@ -1,21 +1,31 @@
+from asyncio.windows_events import NULL
+from inspect import Traceback
 import os
 import discord
 import random
 import typing
 
 from random import randrange
+from discord.channel import CategoryChannel
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.utils import get
-
-#features list: roll the bones, assign roles
+from discord_slash import SlashCommand, SlashContext
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-guild = os.getenv('DISCORD_GUILD')
+guildID = os.getenv('DISCORD_GUILD')
+guildname = os.getenv('DISCORD_GUILDNAME')
 
-bot = commands.Bot(command_prefix='/')
-#guild = discord.utils.get(bot.guilds, name='SlasherBot')
+bot = commands.Bot(command_prefix='/', intents=discord.Intents.all())
+slash = SlashCommand(bot)
+
+def isOwner(author):
+    owner = "Pwnsome#0367"
+    if str(author) == str(owner):
+        return True
+    else:
+        return False
 
 @bot.event
 async def on_ready():
@@ -48,19 +58,33 @@ async def roll(ctx, arg, arg2: typing.Optional[int] = 1): #arg: die size arg2: n
     if num2 > 1: formattedRolls += f'> Total: {rollTotal}'
     await ctx.send(formattedRolls)
 
-@bot.command(name='corgi7welcome') #remember to change to "on join"
-async def corgi7welcome(ctx):
-    channel = bot.get_channel(857866916436901919)
-    #D20 = get(guild.get_all_emojis(), name='D20')
-    #reactions = [D20, 'money_with_wings']
-    welcomeString = (f"""> **-Roles-**\n > Click on the reaction images to assign yourself the roles!""")
-    msg = await channel.send(welcomeString)
-    #for emoji in reactions:
-    #    await msg.add_reaction(emoji)
+@bot.command(name='cleanchat')
+async def cleanchat(ctx):
+    channel = discord.utils.get(bot.get_all_channels(), name='the-game-garage')
+    async for message in channel.history():
+        if message.content == '[Original Message Deleted]':
+            await message.delete()
+            print('message deleted')
 
-@bot.command(name='test')
-async def test(ctx):
-    emo = guild.name
-    print(emo)
+@bot.command(name='dumpmessages')
+async def dumpmessages(ctx):
+    author = ctx.author
+    guild = ctx.guild
+    channel = ctx.channel
+    fileName = f'slasherBot/data/{str(guild)}_{str(channel.name)}.txt'
+    if isOwner(author):
+        data = open(fileName, 'a')
+        async for message in channel.history():
+            content = str(message.content) + '\n'
+            if '<:' in content:
+                pass
+            elif content == '\n':
+                pass
+            else:
+                try: 
+                    data.write(content)
+                except:
+                    pass
+        data.close()
 
 bot.run(token)

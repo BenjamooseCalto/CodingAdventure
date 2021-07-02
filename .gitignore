@@ -2,4 +2,6 @@
 Game/
 WoW/tools/
 Python/slasherBot/.env
+Python/slasherBot/data/
 *.code-workspace
+
