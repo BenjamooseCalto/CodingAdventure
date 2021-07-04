@@ -1,6 +1,6 @@
 **/ref/
 Game/
-WoW/tools/
+WoW/
 Python/slasherBot/.env
 Python/slasherBot/data/
 *.code-workspace
