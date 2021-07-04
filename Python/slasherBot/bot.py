@@ -1,5 +1,3 @@
-from asyncio.windows_events import NULL
-from inspect import Traceback
 import os
 import discord
 import random
@@ -60,11 +58,12 @@ async def roll(ctx, arg, arg2: typing.Optional[int] = 1): #arg: die size arg2: n
 
 @bot.command(name='cleanchat')
 async def cleanchat(ctx):
-    channel = discord.utils.get(bot.get_all_channels(), name='the-game-garage')
-    async for message in channel.history():
-        if message.content == '[Original Message Deleted]':
-            await message.delete()
-            print('message deleted')
+    if isOwner(ctx.author):
+        channel = discord.utils.get(bot.get_all_channels(), name='the-game-garage')
+        async for message in channel.history():
+            if message.content == '[Original Message Deleted]':
+                await message.delete()
+                print('message deleted')
 
 @bot.command(name='dumpmessages')
 async def dumpmessages(ctx):
