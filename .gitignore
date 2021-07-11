@@ -4,7 +4,6 @@ WoW/
 Python/slasherBot/.env
 Python/slasherBot/data/
 *.code-workspace
-
 CPP/main.cpp
 Python/OpenCV/assets/ball.png
 Python/OpenCV/assets/chessboard.png
@@ -12,4 +11,4 @@ Python/OpenCV/assets/shoe.png
 Python/OpenCV/assets/soccer_practice.jpg
 Python/OpenCV/assets/Texas.jpg
 CPP/main.exe
-Python/slasherBot/
+Python/slasherBot/bot.py
