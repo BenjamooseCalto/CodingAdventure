@@ -1,9 +1,9 @@
 **/ref/
 Game/
 WoW/
-Python/slasherBot/
 Python/slasherBot/.env
 Python/slasherBot/data/
+Python/slasherBot/scratch.py
 *.code-workspace
 CPP/main.cpp
 Python/OpenCV/assets/ball.png
