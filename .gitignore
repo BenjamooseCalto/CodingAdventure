@@ -14,3 +14,6 @@ Python/OpenCV/assets/Texas.jpg
 CPP/main.exe
 
 *.pyc
+Python/OpenAI/.env
+Python/OpenAI/main.py
+Python/OpenAI/chat.py

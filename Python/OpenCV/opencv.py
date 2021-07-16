@@ -23,14 +23,6 @@ while True:
     if cv2.waitKey(1) == ord('q'):
         break
 
-
-
-
-
-
-
-
-
 ''' drawing on the image
     img = cv2.line(frame, (0, 0), (width, height), (0, 0, 255), 5)
     img = cv2.line(img, (0, height), (width, 0), (0, 0, 255), 5)

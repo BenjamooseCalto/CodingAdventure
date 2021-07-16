@@ -3,8 +3,9 @@ import discord
 import random
 import typing
 import logging
+import openai
 
-from slasherUtils import get_UTC_Offset
+from slasherUtils import logToFile
 from datetime import date
 from datetime import datetime
 from discord_slash.model import SlashCommandPermissionType
@@ -27,13 +28,14 @@ LIVEOWNERROLE = int(os.getenv('DISCORD_LIVEOWNERROLE'))
 LIVEADMINROLE = int(os.getenv('DISCORD_LIVEADMINROLE'))
 LIVEADMINROLE2 = int(os.getenv('DISCORD_LIVEADMINROLE2'))
 APPID = os.getenv('DISCORD_APPID')
+OWNER = str(os.getenv('OWNER'))
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
 def isOwner(author):
-    owner = "Pwnsome#0367"
-    if str(author) == str(owner):
+    if str(author) == str(OWNER):
         return True
     else:
         return False
@@ -66,8 +68,6 @@ async def cleanchat(ctx:SlashContext):
             await message.delete()
             print('message deleted')
     logToFile(ctx.author, ctx.guild_id, 'cleanchat', count=i)
-        
-
 
 @slash.slash(
     name='roll',
@@ -93,49 +93,101 @@ async def slashRoll(ctx:SlashContext, size:int, count:int=1):
     author = ctx.author
     rolls = []
     rollTotal = 0
-    num1 = int(size)
-    if count is not int:
-        num2 = int(count)
+    size = int(size)
     if author.nick is None:
         caller = author.name
     else:
         caller = author.nick
-
     formattedRolls = f'{caller}\'s Roll(s):\n'
-    for x in range(1, num2+1):
-        roll = randrange(num1)
+    for x in range(1, count+1):
+        roll = randrange(size)
         if roll == 0: roll += 1
         rolls.append(str(roll))
-
     for i, val in enumerate(rolls):
         if i == 10: break
         formattedRolls += f'> Roll {i+1}: {val}\n'
         rollTotal = rollTotal + int(val)
-    
-    if num2 > 1: formattedRolls += f'> Total: {rollTotal}'
+    if count > 1: formattedRolls += f'> Total: {rollTotal}'
     logToFile(author, ctx.guild_id, 'roll', size=size, count=count, rolls=rollTotal)
     await ctx.send(formattedRolls)
 
-
-def logToFile(user, guildid, event, **kwargs):
-    day = datetime.now()
-    utcOffset = get_UTC_Offset()
-    dt = day.strftime('%m/%d/%y|%H:%M:%S')
-    logging.basicConfig(filename='slasherBot/data/bot.log', encoding='utf-8', level=logging.INFO)
-    if kwargs:
-        if event == 'roll':
-            count = kwargs['count']
-            size = kwargs['size']
-            total = kwargs['rolls']
-            logging.info(f'[{dt}][UTC{utcOffset}]>- {user} rolled a {count}d{size} in Guild:{guildid} | Result: {total}')
-            print('Event Logged')
-        if event == 'cleanchat':
-            count = kwargs['count']
-            if count == 0:
-                logging.info(f'[{dt}][UTC{utcOffset}]>- {user} tried to clean the chat in Guild:{guildid} | Removed {count} messages')
-            else:
-                logging.info(f'[{dt}][UTC{utcOffset}]>- {user} cleaned the chat in Guild:{guildid} | Removed {count} messages')
-                print('Event Logged')
-
-
+@slash.slash(
+    name='convert',
+    description='Convert Metric units to Imperial',
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name='type',
+            description='Choose the type of units to convert',
+            required=True,
+            option_type=3,
+            choices=[
+                create_choice(
+                    name='temperature',
+                    value='temp'
+                ),
+                create_choice(
+                    name='distance',
+                    value='dist'
+                ),
+                create_choice(
+                    name='mass',
+                    value='mass'
+                )
+            ]
+        ),
+        create_option(
+            name='endunit',
+            description='Unit to convert to',
+            required=True,
+            option_type=3,
+            choices=[
+                create_choice(
+                    name='Imperial',
+                    value='imp'
+                ),
+                create_choice(
+                    name='Metric',
+                    value='met'
+                )
+            ]
+        ),
+        create_option(
+            name='inputunit',
+            description='Input',
+            required=True,
+            option_type=4
+        )
+    ]
+)
+async def convert(ctx:SlashContext, type:str):
+    print('Convert Request Received!')
+    
+@slash.slash(
+    name='slasher',
+    description='Have OpenAI attempt to finish your sentence',
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name='input',
+            description='Enter a sentence',
+            required=True,
+            option_type=3
+        )
+    ]
+)
+async def finishSentence(ctx:SlashContext, input):
+    print(input)
+    response = openai.Completion.create(
+        engine='ada',
+        prompt=input,
+        temperature=0.9,
+        max_tokens=20,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.6
+    )
+    response = response['choices'][0]['text']
+    await ctx.send(input + ' |' + response)
+    
 bot.run(TOKEN)
