@@ -29,7 +29,7 @@ LIVEADMINROLE = int(os.getenv('DISCORD_LIVEADMINROLE'))
 LIVEADMINROLE2 = int(os.getenv('DISCORD_LIVEADMINROLE2'))
 APPID = os.getenv('DISCORD_APPID')
 OWNER = str(os.getenv('OWNER'))
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
@@ -164,7 +164,7 @@ async def convert(ctx:SlashContext, type:str):
     print('Convert Request Received!')
     
 @slash.slash(
-    name='slasher',
+    name='gamer',
     description='Have OpenAI attempt to finish your sentence',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
     options=[
@@ -188,6 +188,6 @@ async def finishSentence(ctx:SlashContext, input):
         presence_penalty=0.6
     )
     response = response['choices'][0]['text']
-    await ctx.send(input + ' |' + response)
+    await ctx.send(input + response)
     
 bot.run(TOKEN)
