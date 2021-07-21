@@ -17,3 +17,11 @@ CPP/main.exe
 Python/OpenAI/.env
 Python/OpenAI/main.py
 Python/OpenAI/chat.py
+Tensorflow/
+Python/Pytorch/data/FashionMNIST/raw/train-labels-idx1-ubyte
+Python/Pytorch/data/FashionMNIST/raw/train-images-idx3-ubyte
+Python/Pytorch/data/FashionMNIST/raw/t10k-labels-idx1-ubyte
+Python/Pytorch/data/FashionMNIST/raw/t10k-images-idx3-ubyte
+Python/Pytorch/data/FashionMNIST/processed/training.pt
+Python/Pytorch/data/FashionMNIST/processed/test.pt
+Python/Pytorch/model.pth

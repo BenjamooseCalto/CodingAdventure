@@ -1,13 +1,8 @@
 import os
 import discord
-import random
-import typing
-import logging
 import openai
 
-from slasherUtils import logToFile
-from datetime import date
-from datetime import datetime
+from slasherUtils import logToFile, convert_temperature, convert_distance
 from discord_slash.model import SlashCommandPermissionType
 from random import randrange
 from discord.channel import CategoryChannel
@@ -153,21 +148,48 @@ async def slashRoll(ctx:SlashContext, size:int, count:int=1):
             ]
         ),
         create_option(
-            name='inputunit',
+            name='input',
             description='Input',
             required=True,
             option_type=4
         )
     ]
 )
-async def convert(ctx:SlashContext, type:str):
+async def convert(ctx:SlashContext, type:str, endunit:str, input:int):
     print('Convert Request Received!')
+    if type == 'temp':
+        response = convert_temperature(endunit, input)
+    elif type == 'dist':
+        response = convert_distance(endunit, input)
+    elif type == 'mass':
+        pass
+    await ctx.send(response)
     
 @slash.slash(
-    name='gamer',
+    name='openai',
     description='Have OpenAI attempt to finish your sentence',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
     options=[
+        create_option(
+            name='engine',
+            description='AI Engine',
+            required=True,
+            option_type=3,
+            choices=[
+                create_choice(
+                    name='ada',
+                    value='ada'
+                ),
+                create_choice(
+                    name='davinci',
+                    value='davinci'
+                ),
+                create_choice(
+                    name='curie',
+                    value='curie'
+                )
+            ]
+        ),
         create_option(
             name='input',
             description='Enter a sentence',
@@ -176,18 +198,58 @@ async def convert(ctx:SlashContext, type:str):
         )
     ]
 )
-async def finishSentence(ctx:SlashContext, input):
+async def finishSentence(ctx:SlashContext, input, engine):
     print(input)
-    response = openai.Completion.create(
-        engine='ada',
-        prompt=input,
-        temperature=0.9,
-        max_tokens=20,
-        top_p=1,
-        frequency_penalty=0.0,
-        presence_penalty=0.6
-    )
-    response = response['choices'][0]['text']
-    await ctx.send(input + response)
-    
+    if engine == 'ada':
+        response = openai.Completion.create(
+            engine=engine,
+            prompt=input,
+            temperature=0.9,
+            max_tokens=50,
+            top_p=1,
+            frequency_penalty=0.0,
+            presence_penalty=0.6
+        )
+        response = response['choices'][0]['text']
+        
+    logToFile(ctx.author, ctx.guild_id, 'openai', engine=engine, input=input)
+    await ctx.send('Input: ' + input + '\n\n' + input + response)
+
+@slash.slash(
+    name='roast',
+    description='Roast a fella',
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name='name',
+            description='Who will be roasted?',
+            required=True,
+            option_type=3
+        ),
+        create_option(
+            name='roast',
+            description='The roast to be inflicted',
+            required=False,
+            option_type=3
+        )
+    ]
+)
+async def roast(ctx:SlashContext, name, roast=None):
+    print('Roast Request Received!')
+    guild = ctx.guild
+    target = None
+    for member in guild.members:
+        if member.display_name == name:
+            target = bot.get_user(member.id)
+    if roast:
+        message = roast
+    else:
+        message = 'reserved for future roasts'
+    if target is None:
+        print('Name not found')
+        await ctx.author.send('Name not found')
+    else:
+        print('Roast Sent')
+        await target.send(message)
+
 bot.run(TOKEN)

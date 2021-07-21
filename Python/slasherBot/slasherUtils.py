@@ -52,20 +52,37 @@ def logToFile(user, guildid, event, **kwargs):
             total = kwargs['rolls']
             logging.info(f'[{dt}][UTC{utcOffset}]>- {user} rolled a {count}d{size} in Guild:{guildid} | Result: {total}')
             print('Event Logged')
-        if event == 'cleanchat':
+        elif event == 'cleanchat':
             count = kwargs['count']
             if count == 0:
                 logging.info(f'[{dt}][UTC{utcOffset}]>- {user} tried to clean the chat in Guild:{guildid} | Removed {count} messages')
             else:
                 logging.info(f'[{dt}][UTC{utcOffset}]>- {user} cleaned the chat in Guild:{guildid} | Removed {count} messages')
-                print('Event Logged')
+            print('Event Logged')
+        elif event == 'openai':
+            engine = kwargs['engine']
+            input = kwargs['input']
+            logging.info(f'[{dt}][UTC{utcOffset}]>- {user} made an OpenAI call using {engine} in Guild:{guildid} | Input: {input}')
+            print('Event Logged')
 
-def temperatures(type, c=0, f=0):
-    if type == 'ctof':
-        f = int((c * (9/5)) + 32)
-        response = (f'{c}\N{DEGREE SIGN}C is {f}\N{DEGREE SIGN}F')
-    elif type == 'ftoc':
-        c = int((f - 32) * (5/9))
-        response = (f'{f}\N{DEGREE SIGN}F is {c}\N{DEGREE SIGN}C')
+def convert_temperature(endunit, input):
+    if endunit == 'imp':
+        f = int((input * (9/5)) + 32)
+        response = (f'{input}\N{DEGREE SIGN}C is {f}\N{DEGREE SIGN}F')
+    elif endunit == 'met':
+        c = int((input - 32) * (5/9))
+        response = (f'{input}\N{DEGREE SIGN}F is {c}\N{DEGREE SIGN}C')
     return response
 
+def convert_distance(endunit, input):
+    if endunit == 'imp':
+        mi = int(input / 1.609)
+        response = (f'{input} kilometers is {mi} miles')
+    elif endunit == 'met':
+        km = int(input * 1.609)
+        response = (f'{input} miles is {km} kilometers')
+    return response
+
+
+
+        
