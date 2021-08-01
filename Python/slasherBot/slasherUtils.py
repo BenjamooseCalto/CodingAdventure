@@ -83,6 +83,38 @@ def convert_distance(endunit, input):
         response = (f'{input} miles is {km} kilometers')
     return response
 
+class Conversion:
+    METERS = ['m', 'meter', 'meters']
+    KILOMETERS = ['km', 'kms', 'kilometers']
+    CELSIUS = ['c', 'celsius']
+    FAHRENHEIT = ['f', 'fahrenheit']
+    TEMPERATURE = [CELSIUS, FAHRENHEIT]
+
+    def __init__(self, message, unitOne, unitTwo):
+        self.message = message.lower()
+        self.unitOne = unitOne
+        self.unitTwo = unitTwo
+    
+    def isConversion(self):
+        if 'convert' in self.message:
+            return True
+        else:
+            return False
+    
+    def find_type(self):
+        if self.TEMPERATURE in self.message:
+            return 'temperature'
+    
+    def find_units(self):
+        #input = 'Convert 18F to C
+        
+
+    def convert(self, message):
+        isConvert = self.isConversion()
+        if isConvert:
+            type = self.find_type
 
 
+
+    
         

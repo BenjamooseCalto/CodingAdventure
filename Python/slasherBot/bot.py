@@ -2,7 +2,7 @@ import os
 import discord
 import openai
 
-from slasherUtils import logToFile, convert_temperature, convert_distance
+from slasherUtils import logToFile, convert_temperature, convert_distance, Conversion
 from discord_slash.model import SlashCommandPermissionType
 from random import randrange
 from discord.channel import CategoryChannel
@@ -251,5 +251,12 @@ async def roast(ctx:SlashContext, name, roast=None):
     else:
         print('Roast Sent')
         await target.send(message)
+
+@bot.listen('on_message')
+async def convert_listen(message):
+    author = message.author
+    message = message.content
+    conversion = Conversion()
+        
 
 bot.run(TOKEN)
