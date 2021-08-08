@@ -30,3 +30,5 @@ Python/Pytorch/model.pth
 .vs/Coding Adventure/v16/.suo
 .vs/Coding Adventure/v16/Browse.VC.db
 Personal Website/
+Python/nasaAPI/neow.py
+*.env

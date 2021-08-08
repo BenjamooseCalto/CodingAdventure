@@ -1,8 +1,8 @@
 import os
 import discord
 import openai
+import slasherUtils as Slasher
 
-from slasherUtils import logToFile, convert_temperature, convert_distance, Conversion
 from discord_slash.model import SlashCommandPermissionType
 from random import randrange
 from discord.channel import CategoryChannel
@@ -62,7 +62,7 @@ async def cleanchat(ctx:SlashContext):
             i += 1
             await message.delete()
             print('message deleted')
-    logToFile(ctx.author, ctx.guild_id, 'cleanchat', count=i)
+    Slasher.logToFile(ctx.author, ctx.guild_id, 'cleanchat', count=i)
 
 @slash.slash(
     name='roll',
@@ -103,7 +103,7 @@ async def slashRoll(ctx:SlashContext, size:int, count:int=1):
         formattedRolls += f'> Roll {i+1}: {val}\n'
         rollTotal = rollTotal + int(val)
     if count > 1: formattedRolls += f'> Total: {rollTotal}'
-    logToFile(author, ctx.guild_id, 'roll', size=size, count=count, rolls=rollTotal)
+    Slasher.logToFile(author, ctx.guild_id, 'roll', size=size, count=count, rolls=rollTotal)
     await ctx.send(formattedRolls)
 
 @slash.slash(
@@ -158,9 +158,9 @@ async def slashRoll(ctx:SlashContext, size:int, count:int=1):
 async def convert(ctx:SlashContext, type:str, endunit:str, input:int):
     print('Convert Request Received!')
     if type == 'temp':
-        response = convert_temperature(endunit, input)
+        response = Slasher.convert_temperature(endunit, input)
     elif type == 'dist':
-        response = convert_distance(endunit, input)
+        response = Slasher.convert_distance(endunit, input)
     elif type == 'mass':
         pass
     await ctx.send(response)
@@ -212,7 +212,7 @@ async def finishSentence(ctx:SlashContext, input, engine):
         )
         response = response['choices'][0]['text']
         
-    logToFile(ctx.author, ctx.guild_id, 'openai', engine=engine, input=input)
+    Slasher.logToFile(ctx.author, ctx.guild_id, 'openai', engine=engine, input=input)
     await ctx.send('Input: ' + input + '\n\n' + input + response)
 
 @slash.slash(
@@ -256,7 +256,7 @@ async def roast(ctx:SlashContext, name, roast=None):
 async def convert_listen(message):
     author = message.author
     message = message.content
-    conversion = Conversion()
+    conversion = Slasher.Conversion(message)
         
 
 bot.run(TOKEN)

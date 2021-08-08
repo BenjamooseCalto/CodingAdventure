@@ -1,6 +1,12 @@
 import logging
 from datetime import datetime
 
+def main():
+    print('idiot')
+
+if __name__ == '__main__':
+    main()
+
 def get_UTC_Offset(): #who knows if this abomination works
     utc = datetime.utcnow()
     utc = utc.hour
@@ -95,24 +101,12 @@ class Conversion:
         self.unitOne = unitOne
         self.unitTwo = unitTwo
     
-    def isConversion(self):
-        if 'convert' in self.message:
-            return True
-        else:
-            return False
-    
     def find_type(self):
-        if self.TEMPERATURE in self.message:
-            return 'temperature'
-    
-    def find_units(self):
-        #input = 'Convert 18F to C
+        self.words = list(self.message)
+        if self.words[0] == 'convert'
+
         
 
-    def convert(self, message):
-        isConvert = self.isConversion()
-        if isConvert:
-            type = self.find_type
 
 
 
