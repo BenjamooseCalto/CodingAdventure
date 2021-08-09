@@ -88,27 +88,3 @@ def convert_distance(endunit, input):
         km = int(input * 1.609)
         response = (f'{input} miles is {km} kilometers')
     return response
-
-class Conversion:
-    METERS = ['m', 'meter', 'meters']
-    KILOMETERS = ['km', 'kms', 'kilometers']
-    CELSIUS = ['c', 'celsius']
-    FAHRENHEIT = ['f', 'fahrenheit']
-    TEMPERATURE = [CELSIUS, FAHRENHEIT]
-
-    def __init__(self, message, unitOne, unitTwo):
-        self.message = message.lower()
-        self.unitOne = unitOne
-        self.unitTwo = unitTwo
-    
-    def find_type(self):
-        self.words = list(self.message)
-        if self.words[0] == 'convert'
-
-        
-
-
-
-
-    
-        

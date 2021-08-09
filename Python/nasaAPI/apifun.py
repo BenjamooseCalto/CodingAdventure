@@ -11,7 +11,7 @@ X_RAPIDAPI_KEY = os.getenv('RAPID_API_KEY')
 apod_url = 'https://api.nasa.gov/planetary/apod'
 apod = requests.get(f'{apod_url}?api_key={NASA_API_KEY}')
 apod = apod.json()
-#webbrowser.open(apod['hdurl'])
+webbrowser.open(apod['hdurl'])
 
 insight_url = 'https://api.nasa.gov/insight_weather/'
 insight = requests.get(f'{insight_url}?api_key={NASA_API_KEY}&feedtype=json&ver=1.0')
@@ -21,4 +21,4 @@ insight = insight.json()
 adsb_url = 'https://adsbexchange-com1.p.rapidapi.com/json/lat/33.11242239034239/lon/-96.70656619502142/dist/50/'
 adsb_headers = {'x-rapidapi-key': X_RAPIDAPI_KEY, 'x-rapidapi-host': 'adsbexchange-com1.p.rapidapi.com'}
 adsb_response = requests.request('GET', adsb_url, headers=adsb_headers)
-print(adsb_response.text)
+#print(adsb_response.text)
