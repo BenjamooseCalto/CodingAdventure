@@ -32,3 +32,8 @@ Python/Pytorch/model.pth
 Personal Website/
 Python/nasaAPI/neow.py
 *.env
+Python/.vscode/settings.json
+Python/users.db
+Python/casinovaBot/users.db
+Python/riotAPI/riotgames.pem
+*.db

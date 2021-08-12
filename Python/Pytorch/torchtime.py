@@ -1,7 +1,8 @@
-import torch
 import matplotlib.pyplot as plt
+import torch
 
 from torch import nn
+from torch.utils import data
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor, Lambda, Compose
@@ -10,21 +11,28 @@ training_data = datasets.FashionMNIST(
     root='data',
     train=True,
     download=True,
-    transform=ToTensor()
+    transform=ToTensor(),
 )
+
 test_data = datasets.FashionMNIST(
     root='data',
     train=False,
     download=True,
-    transform=ToTensor()
+    transform=ToTensor(),
 )
+
 batch_size = 64
 
 train_dataloader = DataLoader(training_data, batch_size=batch_size)
 test_dataloader = DataLoader(test_data, batch_size=batch_size)
 
+for X, y in test_dataloader:
+    print('Shape of X [N, C, H, W]: ', X.shape)
+    print('Shape of y: ', y.shape, y.dtype)
+    break
+
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-print(f'Device: {device}')
+print(f'Using {device} device.')
 
 class NeuralNetwork(nn.Module):
     def __init__(self):
@@ -64,7 +72,7 @@ def train(dataloader, model, loss_fn, optimizer):
 
         if batch % 100 == 0:
             loss, current = loss.item(), batch * len(X)
-            print(f'loss: {loss:>7f} [{current:>5d}/{size:>5d}]')
+            print(f'loss: {loss:>7f}  [{current:>5d}/{size:>5d}]')
 
 def test(dataloader, model, loss_fn):
     size = len(dataloader.dataset)
@@ -79,20 +87,17 @@ def test(dataloader, model, loss_fn):
             correct += (pred.argmax(1) == y).type(torch.float).sum().item()
     test_loss /= num_batches
     correct /= size
-    print(f'Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {(test_loss):>8f} \n')
+    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
 
-epochs = 20
+epochs = 5
 for t in range(epochs):
-    print(f'Epoch {t+1}\n---------------------------------')
+    print(f"Epoch {t+1}\n-------------------------------")
     train(train_dataloader, model, loss_fn, optimizer)
     test(test_dataloader, model, loss_fn)
-print('Done!')
+print("Done!")
 
-torch.save(model.state_dict(), 'model.pth')
-print('Saved PyTorch Model State to model.pth')
-
-model = NeuralNetwork()
-model.load_state_dict(torch.load('model.pth'))
+torch.save(model.state_dict(), "model.pth")
+print("Saved PyTorch Model State to model.pth")
 
 classes = [
     "T-shirt/top",
@@ -111,5 +116,5 @@ model.eval()
 x, y = test_data[0][0], test_data[0][1]
 with torch.no_grad():
     pred = model(x)
-    predicted, actual = classes[pred[0].argmax(0)], classes[y]
+    predicted, actual = classes[pred[0].argmax(0)], classes[y] 
     print(f'Predicted: "{predicted}", Actual: "{actual}"')
