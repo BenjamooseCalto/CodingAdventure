@@ -37,14 +37,3 @@ while True:
         break
     else:
         pass
-
-
-
-'''
-I need to log an API response (json) to a file, but then keep track of data as it updates, without overwriting old data.
-
-I'm building a script to track my stats/abiltiies/items in league of legends throughout the course of a game, so I'm going to have a lot of the same data being fed in, and
-I need a way to filter it and pick out ONLY the new information from each successive API call.
-
-Could I just compare each line and throw away the ones that don't change?
-'''
