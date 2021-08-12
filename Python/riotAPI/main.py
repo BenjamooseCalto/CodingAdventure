@@ -1,9 +1,12 @@
 import requests
+import os
 
+from dotenv import load_dotenv
 from jsondiff import diff
 from time import time, sleep
 
-API_KEY = 'RGAPI-3e062e6b-be03-4887-b1e5-d38c71752973'
+load_dotenv()
+API_KEY = os.getenv('RIOT_API_KEY')
 API_URL = 'na1.api.riotgames.com'
 LIVEGAMEDATA_URL = 'https://127.0.0.1:2999/liveclientdata' #/allgamedata /activeplayer /activeplayername /activeplayerabilities
 ENDPOINT = '/allgamedata'
