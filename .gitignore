@@ -37,3 +37,8 @@ Python/users.db
 Python/casinovaBot/users.db
 Python/riotAPI/riotgames.pem
 *.db
+Python/Result
+Python/FlowPy
+Python/OpenAI/.vscode/settings.json
+Python/slasherBot/data_prepared.jsonl
+Python/slasherBot/casiBot.py

@@ -1,10 +1,11 @@
 import os
 import discord
+import dotenv
 import openai
 import slasherUtils as Slasher
 
 from discord_slash.model import SlashCommandPermissionType
-from random import randrange
+from random import randrange, randint
 from discord.channel import CategoryChannel
 from discord_slash.context import InteractionContext
 from dotenv import load_dotenv
@@ -24,6 +25,7 @@ LIVEADMINROLE = int(os.getenv('DISCORD_LIVEADMINROLE'))
 LIVEADMINROLE2 = int(os.getenv('DISCORD_LIVEADMINROLE2'))
 APPID = os.getenv('DISCORD_APPID')
 OWNER = str(os.getenv('OWNER'))
+OPENAI_FINE_TUNE_MODEL = str(os.getenv('FINE_TUNE_MODEL'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
@@ -202,13 +204,14 @@ async def finishSentence(ctx:SlashContext, input, engine):
     print(input)
     if engine == 'ada':
         response = openai.Completion.create(
-            engine=engine,
+            engine=OPENAI_FINE_TUNE_MODEL,
             prompt=input,
             temperature=0.9,
             max_tokens=50,
             top_p=1,
             frequency_penalty=0.0,
-            presence_penalty=0.6
+            presence_penalty=0.6,
+            stop='\n'
         )
         response = response['choices'][0]['text']
         
@@ -252,11 +255,51 @@ async def roast(ctx:SlashContext, name, roast=None):
         print('Roast Sent')
         await target.send(message)
 
-@bot.listen('on_message')
-async def convert_listen(message):
-    author = message.author
-    message = message.content
-    conversion = Slasher.Conversion(message)
-        
+@slash.slash(
+    name='flip',
+    description='Flip some coins',
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name='bet',
+            description='What side will it land on?',
+            required=True,
+            option_type=3
+        )
+    ]
+)
+async def slashFlip(bet):
+    flip = randint(0,1)
+    side = 'heads' if flip == 0 else 'tails'
+    outcome = 'won!' if side == bet else 'lost!'
+    print(f'The coin lands on {side}. You{outcome}')
+
+@slash.slash(
+    name='converttest',
+    description='convert with ai or something',
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name='prompt',
+            description='convert something',
+            required=True,
+            option_type=3
+        )
+    ]
+)
+async def convert_test(ctx:SlashContext, prompt):
+    response = openai.Completion.create(
+        model=OPENAI_FINE_TUNE_MODEL,
+        prompt=prompt,
+        temperature=0.9,
+        max_tokens=50,
+        top_p=1,
+        frequency_penalty=0.0,
+        presence_penalty=0.6,
+        stop='\n'
+    )
+    response = response['choices'][0]['text']
+    final_response = response.replace(' ->', '')
+    await ctx.send(f'Prompt: {prompt}\nResult: {final_response}')
 
 bot.run(TOKEN)
