@@ -23,7 +23,7 @@ class DataGenerator():
     def __init__(self):
         pass
 
-    def generate_data(self, type, bounds): #type is the type of unit, distance, temperature, mass, etc. | valid inputs 'imp', 'met', 'mar'
+    def generate_data(self, type, bounds): #type is the type of unit, distance, temperature, mass, etc.
         self.units = self.generate_units(type)
         self.number = randrange(0, 5000) if bounds == 'high' else randrange(0, 1000)
         self.to_into = 'into' if randint(0, 1) == 0 else 'to'
@@ -54,7 +54,7 @@ class DataGenerator():
             file.write(json.dumps(data))
             file.write('\n')
     
-    def build(self, n=1):
+    def build(self, n=1): #n is the number of lines or examples to generate
         for _ in range(n):
             rand = randint(1, 3)
             if rand == 1:

@@ -41,7 +41,7 @@ def isOwner(author):
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-@slash.slash(
+@slash.slash( #this command removes the [Original Message Deleted] messages from the free games channel
     name='cleanchat',
     description='Cleans old messages from free games channel',
     guild_ids=[LIVEGUILDID, TESTGUILDID],
@@ -66,7 +66,7 @@ async def cleanchat(ctx:SlashContext):
             print('message deleted')
     Slasher.logToFile(ctx.author, ctx.guild_id, 'cleanchat', count=i)
 
-@slash.slash(
+@slash.slash( #this rolls the bones, needs to be rewritten. inputs are size, and count - size is the size of the die, count is how many dice you wish to roll
     name='roll',
     description='Rolls some dice',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -108,7 +108,7 @@ async def slashRoll(ctx:SlashContext, size:int, count:int=1):
     Slasher.logToFile(author, ctx.guild_id, 'roll', size=size, count=count, rolls=rollTotal)
     await ctx.send(formattedRolls)
 
-@slash.slash(
+@slash.slash( #this is currently being reworked - in the future it will just listen for chat messages instead of requiring a slash command
     name='convert',
     description='Convert Metric units to Imperial',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -167,7 +167,7 @@ async def convert(ctx:SlashContext, type:str, endunit:str, input:int):
         pass
     await ctx.send(response)
     
-@slash.slash(
+@slash.slash( #this makes an OpenAI API call to finish your sentences, limited to Ada only for now because it's the cheapest model
     name='openai',
     description='Have OpenAI attempt to finish your sentence',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -218,7 +218,7 @@ async def finishSentence(ctx:SlashContext, input, engine):
     Slasher.logToFile(ctx.author, ctx.guild_id, 'openai', engine=engine, input=input)
     await ctx.send('Input: ' + input + '\n\n' + input + response)
 
-@slash.slash(
+@slash.slash( #this is not done, for now it can be used to make the bot DM people a message. In the future it will generate some kind of old english roast or something and DM it to a user
     name='roast',
     description='Roast a fella',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -255,7 +255,7 @@ async def roast(ctx:SlashContext, name, roast=None):
         print('Roast Sent')
         await target.send(message)
 
-@slash.slash(
+@slash.slash( #this is part of the mini-casino, much more to be added, most of this functions though
     name='flip',
     description='Flip some coins',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -274,7 +274,7 @@ async def slashFlip(bet):
     outcome = 'won!' if side == bet else 'lost!'
     print(f'The coin lands on {side}. You{outcome}')
 
-@slash.slash(
+@slash.slash( #this uses my fine-tuned OpenAI model to pick out useful information from messages regarding unit conversions, work-in-progress
     name='converttest',
     description='convert with ai or something',
     guild_ids=[TESTGUILDID, LIVEGUILDID],

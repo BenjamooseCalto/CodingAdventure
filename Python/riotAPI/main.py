@@ -11,6 +11,8 @@ CERT = 'riotAPI/riotgames.pem'
 LIVEGAMEDATA_URL = 'https://127.0.0.1:2999/liveclientdata' #/allgamedata /activeplayer /activeplayername /activeplayerabilities
 ENDPOINT = '/allgamedata'
 
+#the end goal for this is to be able to build a dataset to be used with AI that can (attempt) to predict whether you will win or lose a game while it is in progress
+
 class ClientData:
     def __init__(self, **kwargs):
         if kwargs:

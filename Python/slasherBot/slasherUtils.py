@@ -9,7 +9,6 @@ if __name__ == '__main__':
     main()
 
 # TO DO: make hand, prevent overdrawing
-
 class Card:
     def __init__(self, suit, value):
         self.suit = suit
@@ -58,7 +57,7 @@ class Discard:
     def show(self):
         print(f'{(len(self.cards))} card have been discarded.')
 
-def get_UTC_Offset(): #who knows if this abomination works
+def get_UTC_Offset(): #who knows if this abomination works, finds the UTC offset for your local timezone
     utc = datetime.utcnow()
     utc = utc.hour
     local = datetime.now()
@@ -70,7 +69,7 @@ def get_UTC_Offset(): #who knows if this abomination works
         diff = local - utc
     return diff
 
-def get_dst(): #only verified for Texas
+def get_dst(): #returns whether it is currently daylight savings time (in texas at least)
     localtime = datetime.now()
     month = localtime.month
     day = localtime.day
@@ -97,7 +96,7 @@ def get_dst(): #only verified for Texas
     else:
         return False
 
-def logToFile(user, guildid, event, **kwargs):
+def logToFile(user, guildid, event, **kwargs): #logs information to the log file, probably not needed as there is a built in logging function, but i thought it was cool, but it's terribly written
     day = datetime.now()
     utcOffset = get_UTC_Offset()
     dt = day.strftime('%m/%d/%y|%H:%M:%S')
@@ -121,21 +120,3 @@ def logToFile(user, guildid, event, **kwargs):
             input = kwargs['input']
             logging.info(f'[{dt}][UTC{utcOffset}]>- {user} made an OpenAI call using {engine} in Guild:{guildid} | Input: {input}')
             print('Event Logged')
-
-def convert_temperature(endunit, input):
-    if endunit == 'imp':
-        f = int((input * (9/5)) + 32)
-        response = (f'{input}\N{DEGREE SIGN}C is {f}\N{DEGREE SIGN}F')
-    elif endunit == 'met':
-        c = int((input - 32) * (5/9))
-        response = (f'{input}\N{DEGREE SIGN}F is {c}\N{DEGREE SIGN}C')
-    return response
-
-def convert_distance(endunit, input):
-    if endunit == 'imp':
-        mi = int(input / 1.609)
-        response = (f'{input} kilometers is {mi} miles')
-    elif endunit == 'met':
-        km = int(input * 1.609)
-        response = (f'{input} miles is {km} kilometers')
-    return response
