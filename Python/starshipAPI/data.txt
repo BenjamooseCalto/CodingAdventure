@@ -45,7 +45,7 @@
             "description": null,
             "link": "https://tfr.faa.gov/save_pages/detail_1_9853.html",
             "createdAt": "2021-08-02T22:22:02.833Z",
-            "updatedAt": "2021-08-16T17:27:02.436Z",
+            "updatedAt": "2021-08-17T22:59:02.472Z",
             "__v": 0,
             "isActive": true,
             "length": "697 hours",
@@ -54,41 +54,20 @@
     ],
     "closures": [
         {
-            "_id": "6116d526462e40001a496a64",
-            "isRemoved": false,
-            "type": "Primary Date",
-            "originalDate": "\u00a0August 16, 2021",
-            "originalTime": "9:00 a.m. to 1:00 p.m.",
-            "status": "Intermittent Closure Canceled",
-            "slug": "august-16-2021-900-am-to-100-pm",
-            "startDate": "2021-08-16T14:00:00.000Z",
-            "endDate": "2021-08-16T18:00:00.000Z",
-            "createdAt": "2021-08-13T20:25:10.254Z",
-            "updatedAt": "2021-08-16T17:27:04.038Z",
-            "__v": 0,
-            "isActive": false,
-            "isCanceled": true,
-            "isRevoked": false,
-            "isConcluded": false,
-            "interval": "2:00 pm \u2013 6:00 pm",
-            "startDateString": "8/16/2021, 9:00 AM CDT",
-            "endDateString": "8/16/2021, 1:00 PM CDT"
-        },
-        {
             "_id": "6116d4e3184a83001a5beb38",
             "isRemoved": false,
             "type": "Primary Date",
             "originalDate": "\u00a0August 18, 2021",
             "originalTime": "5:00 p.m. to 11:00 p.m.",
-            "status": "Closure Scheduled",
+            "status": "Closure Canceled",
             "slug": "august-18-2021-500-pm-to-1100-pm",
             "startDate": "2021-08-18T22:00:00.000Z",
             "endDate": "2021-08-19T04:00:00.000Z",
             "createdAt": "2021-08-13T20:24:03.965Z",
-            "updatedAt": "2021-08-16T17:27:04.039Z",
+            "updatedAt": "2021-08-17T22:59:03.997Z",
             "__v": 0,
             "isActive": false,
-            "isCanceled": false,
+            "isCanceled": true,
             "isRevoked": false,
             "isConcluded": false,
             "interval": "10:00 pm \u2013 4:00 am",
@@ -106,7 +85,7 @@
             "startDate": "2021-08-19T22:00:00.000Z",
             "endDate": "2021-08-20T04:00:00.000Z",
             "createdAt": "2021-08-13T20:24:03.965Z",
-            "updatedAt": "2021-08-16T17:27:04.039Z",
+            "updatedAt": "2021-08-17T22:59:03.997Z",
             "__v": 0,
             "isActive": false,
             "isCanceled": false,
@@ -127,7 +106,7 @@
             "startDate": "2021-08-20T11:00:00.000Z",
             "endDate": "2021-08-20T17:00:00.000Z",
             "createdAt": "2021-08-13T20:25:10.254Z",
-            "updatedAt": "2021-08-16T17:27:04.039Z",
+            "updatedAt": "2021-08-17T22:59:03.998Z",
             "__v": 0,
             "isActive": false,
             "isCanceled": false,
@@ -145,41 +124,42 @@
         },
         "weather": [
             {
-                "id": 800,
-                "main": "Clear",
-                "description": "clear sky",
-                "icon": "01d"
+                "id": 803,
+                "main": "Clouds",
+                "description": "broken clouds",
+                "icon": "04d"
             }
         ],
         "base": "stations",
         "main": {
-            "temp": 33.09,
-            "feels_like": 39.03,
-            "temp_min": 31.16,
-            "temp_max": 34.43,
-            "pressure": 1013,
-            "humidity": 58
+            "temp": 33.38,
+            "feels_like": 40.38,
+            "temp_min": 32.75,
+            "temp_max": 35.06,
+            "pressure": 1009,
+            "humidity": 61
         },
         "visibility": 10000,
         "wind": {
-            "speed": 2.57,
-            "deg": 40
+            "speed": 2.24,
+            "deg": 140,
+            "gust": 6.26
         },
         "clouds": {
-            "all": 1
+            "all": 52
         },
-        "dt": 1629134276,
+        "dt": 1629241174,
         "sys": {
             "type": 2,
             "id": 2005669,
             "country": "US",
-            "sunrise": 1629115413,
-            "sunset": 1629162308
+            "sunrise": 1629201841,
+            "sunset": 1629248656
         },
         "timezone": -18000,
         "id": 4676740,
         "name": "Brownsville",
         "cod": 200
     },
-    "lastUpdatedDate": "2021-08-16T17:27:05.034Z"
+    "lastUpdatedDate": "2021-08-17T22:59:04.819Z"
 }
