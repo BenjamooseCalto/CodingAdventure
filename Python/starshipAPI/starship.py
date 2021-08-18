@@ -42,10 +42,11 @@ class Data:
         string = (f'''\
 Number of TFR\'s active: {self.num_tfrs}
 Number of Active Road Closures: {self.num_closures}
-Current Weather in {self.location}: {self.weather}''')
+Current Weather in {self.location}: {self.weather}
+Last Updated: {self.update_date}''')
         for closure in self.closures:
             if closure.active == True:
-                pass
+                print(closure)
         print(string)
 
 class Location:
@@ -95,6 +96,12 @@ class RoadClosure:
         self.status = self.get_status(self.info)
         self.active = self.info['isActive']
 
+    def __str__(self):
+        return f'''\
+            Closure Time: {self.info['originalTime']}
+            Closure Status: {self.info['status']}
+            '''
+
     def get_status(self, info):
         status = {'active': info['isActive'], 'cancel': info['isCanceled'], 'revoked': info['isRevoked'], 'conclude': info['isConcluded'], 'removed': info['isRemoved']}
         if status['active'] == True:
@@ -108,6 +115,6 @@ class RoadClosure:
         elif status['removed'] == True:
             return 'Removed'
 
-data = Data(URL)
+data = Data(URL, update=True)
 data.show()
 print(data.tfrs[0])
