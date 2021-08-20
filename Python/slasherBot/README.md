@@ -8,7 +8,7 @@ Inside the modules folder is slasherUtils.py, this is where I keep all of my cus
 
 ## Starship API
 
-### *API by @NoahPrail on Twitter*
+### *API by @NoahPrail on Twitter and starshipstatus.space*
 
 In modules > starship you'll find my newest addition, this script grabs (nearly) realtime data from Starbase, TX home to the SpaceX South Texas Launch Site.
 The script makes an API call to an API made by @NoahPrail on Twitter, this returns a ton of information including Weather, Temporary Flight Restrictions, and road closures.
