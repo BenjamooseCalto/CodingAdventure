@@ -12,6 +12,7 @@ X_RAPIDAPI_KEY = os.getenv('RAPID_API_KEY')
 apod_url = 'https://api.nasa.gov/planetary/apod'
 apod = requests.get(f'{apod_url}?api_key={NASA_API_KEY}')
 apod = apod.json()
+print(apod)
 webbrowser.open(apod['hdurl'])
 
 #mars weather

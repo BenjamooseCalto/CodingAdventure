@@ -1,10 +1,14 @@
 import requests
 import json
+import sys
 
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+ 
 URL = 'https://starshipstatus.space/api/data' #api by @NoahPrail on Twitter
 
-class Data:
-    def __init__(self, url, update=False):
+class StarshipStatus:
+    def __init__(self, url, update=False): #r = api response, either updated on object creation or taken from the data file
         self.url = url
         if update == True:
             self.update()
@@ -18,6 +22,7 @@ class Data:
         self.r = self.r.json()
         with open('starshipAPI/data.txt', 'w') as file:
             json.dump(self.r, file, indent=4)
+        self.build_index() #have to call this again (for now) because update() can be called manually, and it wouldn't update the information otherwise
     
     def build_index(self):
         self.weather = Weather(self.r['weather'])
@@ -115,6 +120,21 @@ class RoadClosure:
         elif status['removed'] == True:
             return 'Removed'
 
-data = Data(URL, update=True)
-data.show()
-print(data.tfrs[0])
+def window():
+    data = StarshipStatus(URL, update=False)
+    data.show()
+
+    app = QApplication(sys.argv)
+    win = QMainWindow()
+    win.setGeometry(200, 200, 300, 300)
+    win.setWindowTitle('Starship Status API')
+
+    label = QtWidgets.QLabel(win)
+    label.setText('starship')
+    label.move(50, 50)
+
+    win.show()
+    sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    window()

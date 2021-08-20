@@ -1,8 +1,9 @@
 import os
 import discord
-import dotenv
 import openai
-import slasherUtils as Slasher
+from requests.api import options
+import modules.slasherUtils as Slasher
+import modules.starship.starship as SlasherShip
 
 from discord_slash.model import SlashCommandPermissionType
 from random import randrange, randint
@@ -85,7 +86,7 @@ async def cleanchat(ctx:SlashContext):
         )
     ]
 )
-async def slashRoll(ctx:SlashContext, size:int, count:int=1):
+async def slashRoll(ctx:SlashContext, size:int, count:int=1): #this was one of the first "complex" functions I wrote, definitely needs to be redone.
     print('Roll Received!')
     author = ctx.author
     rolls = []
@@ -301,5 +302,32 @@ async def convert_test(ctx:SlashContext, prompt):
     response = response['choices'][0]['text']
     final_response = response.replace(' ->', '')
     await ctx.send(f'Prompt: {prompt}\nResult: {final_response}')
+
+@slash.slash( #this returns data from the starship status API, more details on that in Python/starshipAPI
+    name='starship',
+    description='Check up on Starship',
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name='request',
+            description='Request specific information',
+            required=False,
+            option_type=3,
+            choices=[
+                create_choice(
+                    name='TFR',
+                    value='tfr'
+                ),
+                create_choice(
+                    name='roads',
+                    value='roads'
+                )
+            ]
+        )
+    ]
+)
+async def starship(ctx:SlashContext, request):
+    data = SlasherShip.StarshipStatus(update=True)
+    await ctx.send(data.show(request))
 
 bot.run(TOKEN)
