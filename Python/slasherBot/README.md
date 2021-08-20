@@ -14,10 +14,12 @@ In modules > starship you'll find my newest addition, this script grabs (nearly)
 The script makes an API call to an API made by @NoahPrail on Twitter, this returns a ton of information including Weather, Temporary Flight Restrictions, and road closures.
 There is a huge community of people that cover all the happenings at Starbase. The road closures are a great indication of when things are happening, as they are closed when transporting the booster, ship, or even ground support equipment.
 
-Once launches resume, hopefully in September, there will likely be more information added to the API regarding launches and general launch information. This will be awesome info to be able to play with.
+Once launches resume, hopefully in September, there will likely be more information regarding launches and general launch information. This will be awesome info to be able to play with.
 
 Right now it returns the number of active TFRs, number of active road closures, current weather, and the time it was last updated.
 I am working on a way to request information via my script to get specific information. For example this could be humidity, air pressure, TFR dates, road closure status, etc.
+
+The data.txt file is just the API response if you're interested in the raw data.
 
 ## Future
 
