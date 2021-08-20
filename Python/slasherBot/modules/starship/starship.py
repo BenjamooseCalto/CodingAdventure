@@ -1,7 +1,5 @@
 import requests
 import json
-
-from requests.models import requote_uri
  
 URL = 'https://starshipstatus.space/api/data' #api by @NoahPrail on Twitter
 DATA_FILE = 'slasherBot/modules/starship/data.txt'
