@@ -1,7 +1,7 @@
 # This is my Discord bot, still WIP
 
 In here you can find the source code for my Discord bot, I've called it SlasherBot for now, but that will likely change.
-In the future this will also likely be moved to it's own repo once it gets bigger and is closer to being publicly available.
+In the future this will also likely be moved to it's own repo once it gets bigger and is closer to being done. I don't have any plans to make this public unless for some reason it becomes useful.
 
 bot.py is the base file for running the bot and connecting all of the modules to it.
 Inside the modules folder is slasherUtils.py, this is where I keep all of my custom functions/classes for the bot.
