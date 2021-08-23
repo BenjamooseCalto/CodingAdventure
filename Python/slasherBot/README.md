@@ -23,4 +23,8 @@ The data.txt file is just the API response if you're interested in the raw data.
 
 ## Future
 
-I got a lot of things I want to do with this bot, but if you have any ideas, please let me know! On my profile you can find my E-mail address and Twitter.
+Plans:
+1. Add help command
+2. Build mini-casino
+3. Build a database of some sort
+4. Integrate more cool APIs
