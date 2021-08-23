@@ -10,7 +10,7 @@ Below I'll explain each module.
 
 ## Starship API
 
-### *API by @NoahPrail on Twitter and starshipstatus.space*
+### *API by [@NoahPrail](https://twitter.com/NoahPrail) on Twitter and [starshipstatus.space](https://starshipstatus.space/)*
 
 In modules > starship you'll find my newest addition, this script grabs (nearly) realtime data from Starbase, TX home to the SpaceX South Texas Launch Site.
 The script makes an API call to an API made by @NoahPrail on Twitter, this returns a ton of information including Weather, Temporary Flight Restrictions, and road closures.
