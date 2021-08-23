@@ -116,6 +116,7 @@ class RoadClosure:
 
     def __str__(self):
         return f'''\
+            Closure Date: {self.info['originalDate']}
             Closure Time: {self.info['originalTime']}
             Closure Status: {self.info['status']}
             '''
@@ -132,6 +133,11 @@ class RoadClosure:
             return 'Concluded'
         elif status['removed'] == True:
             return 'Removed'
+
+class StarshipRequest: #this will handle requests made for specific information, probably will add more info about Starship in general, without using the API from above
+    #valid requests will be like weather, then specific weather details like temp, humidity, etc. then similar setup for other types like TFRs, closures, etc.
+    def __init__(self, request=False):
+        self.request = request
 
 def main():
     data = StarshipStatus(update=True)

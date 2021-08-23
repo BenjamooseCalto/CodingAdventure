@@ -1,10 +1,10 @@
 import os
 import discord
 import openai
-from requests.api import options
 import modules.slasherUtils as Slasher
 import modules.starship.starship as SlasherShip
 
+from modules.nasaAPI.nasa import apod
 from discord_slash.model import SlashCommandPermissionType
 from random import randrange, randint
 from discord.channel import CategoryChannel
@@ -67,7 +67,7 @@ async def cleanchat(ctx:SlashContext):
             print('message deleted')
     Slasher.logToFile(ctx.author, ctx.guild_id, 'cleanchat', count=i)
 
-@slash.slash( #this rolls the bones, needs to be rewritten. inputs are size, and count - size is the size of the die, count is how many dice you wish to roll
+@slash.slash( #this rolls the bones, inputs are size, and count - size is the size of the die, count is how many dice you wish to roll
     name='roll',
     description='Rolls some dice',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -86,87 +86,33 @@ async def cleanchat(ctx:SlashContext):
         )
     ]
 )
-async def slashRoll(ctx:SlashContext, size:int, count:int=1): #this was one of the first "complex" functions I wrote, definitely needs to be redone.
-    print('Roll Received!')
+async def slashRoll(ctx:SlashContext, size:int, count:int=1): #rewrote this function, i think it looks way better now, but its still probably not the best way to do this
     author = ctx.author
     rolls = []
-    rollTotal = 0
-    size = int(size)
-    if author.nick is None:
-        caller = author.name
-    else:
-        caller = author.nick
-    formattedRolls = f'{caller}\'s Roll(s):\n'
-    for x in range(1, count+1):
-        roll = randrange(size)
-        if roll == 0: roll += 1
-        rolls.append(str(roll))
-    for i, val in enumerate(rolls):
-        if i == 10: break
-        formattedRolls += f'> Roll {i+1}: {val}\n'
-        rollTotal = rollTotal + int(val)
-    if count > 1: formattedRolls += f'> Total: {rollTotal}'
-    Slasher.logToFile(author, ctx.guild_id, 'roll', size=size, count=count, rolls=rollTotal)
-    await ctx.send(formattedRolls)
+    i = 0
+    while True:
+        i += 1
+        rolls.append(randint(1, size))
+        if i >= count:
+            break
 
-@slash.slash( #this is currently being reworked - in the future it will just listen for chat messages instead of requiring a slash command
-    name='convert',
-    description='Convert Metric units to Imperial',
-    guild_ids=[TESTGUILDID, LIVEGUILDID],
-    options=[
-        create_option(
-            name='type',
-            description='Choose the type of units to convert',
-            required=True,
-            option_type=3,
-            choices=[
-                create_choice(
-                    name='temperature',
-                    value='temp'
-                ),
-                create_choice(
-                    name='distance',
-                    value='dist'
-                ),
-                create_choice(
-                    name='mass',
-                    value='mass'
-                )
-            ]
-        ),
-        create_option(
-            name='endunit',
-            description='Unit to convert to',
-            required=True,
-            option_type=3,
-            choices=[
-                create_choice(
-                    name='Imperial',
-                    value='imp'
-                ),
-                create_choice(
-                    name='Metric',
-                    value='met'
-                )
-            ]
-        ),
-        create_option(
-            name='input',
-            description='Input',
-            required=True,
-            option_type=4
-        )
-    ]
-)
-async def convert(ctx:SlashContext, type:str, endunit:str, input:int):
-    print('Convert Request Received!')
-    if type == 'temp':
-        response = Slasher.convert_temperature(endunit, input)
-    elif type == 'dist':
-        response = Slasher.convert_distance(endunit, input)
-    elif type == 'mass':
-        pass
-    await ctx.send(response)
+    embed = discord.Embed(
+        title='The Bones',
+        description=f'{author.display_name}\'s Rolls: ',
+        colour=discord.Colour.red()
+    )
+    embed.set_footer(text=f'This is not rigged in any way.')
+    embed.set_author(
+        name=author.display_name,
+        icon_url=author.avatar_url
+    )
+    n = 1
+    for roll in rolls:
+        embed.add_field(name=f'Roll {n}:', value=roll, inline=False)
+        n += 1
+
+    embed.add_field(name='Total: ', value=sum(rolls), inline=False)
+    await ctx.send(embed=embed)
     
 @slash.slash( #this makes an OpenAI API call to finish your sentences, limited to Ada only for now because it's the cheapest model
     name='openai',
@@ -256,7 +202,7 @@ async def roast(ctx:SlashContext, name, roast=None):
         print('Roast Sent')
         await target.send(message)
 
-@slash.slash( #this is part of the mini-casino, much more to be added, most of this functions though
+@slash.slash( #this is part of the mini-casino, much more to be added, most of this works though
     name='flip',
     description='Flip some coins',
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -273,7 +219,7 @@ async def slashFlip(bet):
     flip = randint(0,1)
     side = 'heads' if flip == 0 else 'tails'
     outcome = 'won!' if side == bet else 'lost!'
-    print(f'The coin lands on {side}. You{outcome}')
+    print(f'The coin lands on {side}. You {outcome}')
 
 @slash.slash( #this uses my fine-tuned OpenAI model to pick out useful information from messages regarding unit conversions, work-in-progress
     name='converttest',
@@ -326,8 +272,32 @@ async def convert_test(ctx:SlashContext, prompt):
         )
     ]
 )
-async def starship(ctx:SlashContext, request):
+async def starship(ctx:SlashContext, request=False):
     data = SlasherShip.StarshipStatus(update=True)
-    await ctx.send(data.show(request))
+    embed = discord.Embed(
+        title='Starship Status',
+        description='Weather, TFRs, and Road Closure Information',
+        colour=discord.Colour.blue()
+    )
+    embed.set_footer(text=f'Last Updated: {data.update_date}')
+    embed.set_author(
+        name=ctx.author.display_name,
+        icon_url=ctx.author.avatar_url
+    )
+    embed.add_field(name=f"Current Weather in {data.location}:", value=data.weather, inline=False)
+    embed.add_field(name="Active TFR's:", value=data.num_tfrs, inline=False)
+    embed.add_field(name="Active Road Closures: ", value=data.num_closures, inline=False)
+    for closure in data.closures:
+        embed.add_field(name=f'Closure:', value=closure, inline=False)
+
+    await ctx.send(embed=embed)
+
+@slash.slash( #this uses NASA's astronomy picture of the day API to give you a cool picture
+    name='apod',
+    description='Astronomy Picture of the Day',
+    guild_ids=[TESTGUILDID, LIVEGUILDID]
+)
+async def slashApod(ctx:SlashContext):
+    await ctx.send(apod())
 
 bot.run(TOKEN)

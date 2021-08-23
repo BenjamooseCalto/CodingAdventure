@@ -45,7 +45,7 @@
             "description": null,
             "link": "https://tfr.faa.gov/save_pages/detail_1_9853.html",
             "createdAt": "2021-08-02T22:22:02.833Z",
-            "updatedAt": "2021-08-20T14:44:02.413Z",
+            "updatedAt": "2021-08-23T06:53:02.443Z",
             "__v": 0,
             "isActive": true,
             "length": "697 hours",
@@ -54,25 +54,25 @@
     ],
     "closures": [
         {
-            "_id": "6116d526462e40001a496a65",
+            "_id": "6120110894f2dc001a704337",
             "isRemoved": false,
-            "type": "Secondary Date",
-            "originalDate": "\u00a0August 20, 2021",
-            "originalTime": "6:00 a.m. to 12:00 p.m.",
-            "status": "Closure Canceled",
-            "slug": "august-20-2021-600-am-to-1200-pm",
-            "startDate": "2021-08-20T11:00:00.000Z",
-            "endDate": "2021-08-20T17:00:00.000Z",
-            "createdAt": "2021-08-13T20:25:10.254Z",
-            "updatedAt": "2021-08-20T14:44:03.863Z",
+            "type": "Primary Date",
+            "originalDate": "\u00a0August 23, 2021",
+            "originalTime": "9:30 a.m. to 11:30 a.m.",
+            "status": "Intermittent Closure Scheduled\nBoca Chica will remain open",
+            "slug": "august-23-2021-930-am-to-1130-am",
+            "startDate": "2021-08-23T14:30:00.000Z",
+            "endDate": "2021-08-23T16:30:00.000Z",
+            "createdAt": "2021-08-20T20:31:04.098Z",
+            "updatedAt": "2021-08-23T06:53:03.944Z",
             "__v": 0,
             "isActive": false,
-            "isCanceled": true,
+            "isCanceled": false,
             "isRevoked": false,
             "isConcluded": false,
-            "interval": "11:00 am \u2013 5:00 pm",
-            "startDateString": "8/20/2021, 6:00 AM CDT",
-            "endDateString": "8/20/2021, 12:00 PM CDT"
+            "interval": "2:30 pm \u2013 4:30 pm",
+            "startDateString": "8/23/2021, 9:30 AM CDT",
+            "endDateString": "8/23/2021, 11:30 AM CDT"
         },
         {
             "_id": "611d7768dea39b001a7ec0ed",
@@ -85,7 +85,7 @@
             "startDate": "2021-08-24T22:00:00.000Z",
             "endDate": "2021-08-25T04:00:00.000Z",
             "createdAt": "2021-08-18T21:11:04.142Z",
-            "updatedAt": "2021-08-20T14:44:03.863Z",
+            "updatedAt": "2021-08-23T06:53:03.944Z",
             "__v": 0,
             "isActive": false,
             "isCanceled": false,
@@ -106,7 +106,7 @@
             "startDate": "2021-08-25T22:00:00.000Z",
             "endDate": "2021-08-26T04:00:00.000Z",
             "createdAt": "2021-08-18T21:11:04.142Z",
-            "updatedAt": "2021-08-20T14:44:03.863Z",
+            "updatedAt": "2021-08-23T06:53:03.944Z",
             "__v": 0,
             "isActive": false,
             "isCanceled": false,
@@ -127,7 +127,7 @@
             "startDate": "2021-08-26T22:00:00.000Z",
             "endDate": "2021-08-27T04:00:00.000Z",
             "createdAt": "2021-08-18T21:11:04.142Z",
-            "updatedAt": "2021-08-20T14:44:03.863Z",
+            "updatedAt": "2021-08-23T06:53:03.944Z",
             "__v": 0,
             "isActive": false,
             "isCanceled": false,
@@ -145,42 +145,42 @@
         },
         "weather": [
             {
-                "id": 802,
+                "id": 804,
                 "main": "Clouds",
-                "description": "scattered clouds",
-                "icon": "03d"
+                "description": "overcast clouds",
+                "icon": "04n"
             }
         ],
         "base": "stations",
         "main": {
-            "temp": 30.5,
-            "feels_like": 37.41,
-            "temp_min": 29,
-            "temp_max": 31.1,
-            "pressure": 1012,
-            "humidity": 74
+            "temp": 26.48,
+            "feels_like": 26.48,
+            "temp_min": 25.5,
+            "temp_max": 26.68,
+            "pressure": 1015,
+            "humidity": 86
         },
         "visibility": 10000,
         "wind": {
-            "speed": 1.79,
-            "deg": 52,
-            "gust": 4.92
+            "speed": 1.34,
+            "deg": 94,
+            "gust": 3.13
         },
         "clouds": {
-            "all": 40
+            "all": 100
         },
-        "dt": 1629470117,
+        "dt": 1629701591,
         "sys": {
             "type": 2,
             "id": 2005669,
             "country": "US",
-            "sunrise": 1629461123,
-            "sunset": 1629507694
+            "sunrise": 1629720403,
+            "sunset": 1629766725
         },
         "timezone": -18000,
         "id": 4676740,
         "name": "Brownsville",
         "cod": 200
     },
-    "lastUpdatedDate": "2021-08-20T14:44:04.871Z"
+    "lastUpdatedDate": "2021-08-23T06:53:04.966Z"
 }
