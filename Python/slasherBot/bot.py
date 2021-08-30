@@ -6,6 +6,7 @@ import modules.slasherUtils as Slasher
 from modules.math.threex import magicmath
 from modules.starship.starship import StarshipStatus
 from modules.nasa.nasa import apod
+from modules.space.orbits import OrbitInformation
 from discord_slash.model import SlashCommandPermissionType
 from random import randrange, randint
 from discord.channel import CategoryChannel
@@ -219,7 +220,7 @@ async def starship(ctx: SlashContext):
         name="Active Road Closures: ", value=data.num_closures, inline=False
     )
     for closure in data.closures:
-        embed.add_field(name=f"Closure:", value=closure, inline=False)
+        embed.add_field(name=f"Closure {closure.status}:", value=closure, inline=False)
 
     await ctx.send(embed=embed)
 
@@ -248,6 +249,83 @@ async def slashApod(ctx: SlashContext):
 )
 async def three_x(ctx: SlashContext, number):
     await ctx.send(f"> {magicmath(number)}")
+
+
+@slash.slash(
+    name="orbit",
+    description="Get Orbital information about a given body in our Solar System",
+    guild_ids=[TESTGUILDID, LIVEGUILDID],
+    options=[
+        create_option(
+            name="body",
+            description="body you want information on",
+            required=True,
+            option_type=3,
+        )
+    ],
+)
+async def orbit(ctx: SlashContext, body):
+    body = body.lower()
+    data = OrbitInformation(body)
+    embed = discord.Embed(
+        title=f"Orbital Information for {data.name}",
+        description="Orbital numbers for a given body",
+        colour=discord.Colour.blue(),
+    )
+    type = "Planet" if data.isPlanet == True else "Moon"
+    embed.set_footer(text="Data Provided by Le-Systeme Solaire")
+    embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    embed.add_field(name="Body Name", value=data.name, inline=True)
+    embed.add_field(name="Body Type", value=type, inline=True)
+    if type == "Planet":
+        embed.add_field(
+            name=f"Moons ({data.num_moons})", value=data.moons, inline=False
+        )
+        embed.add_field(name="Perihelion", value=f"{data.perihelion:,}km", inline=False)
+        embed.add_field(name="Aphelion", value=f"{data.aphelion:,}km", inline=False)
+    else:
+        if body == "moon":
+            embed.add_field(
+                name="Perigee", value=f"{data.perihelion:,}km", inline=False
+            )
+            embed.add_field(name="Apogee", value=f"{data.aphelion:,}km", inline=False)
+            embed.add_field(name="Parent", value="Earth", inline=False)
+        else:
+            embed.add_field(
+                name="Periapsis", value=f"{data.perihelion:,}km", inline=False
+            )
+            embed.add_field(name="Apoapsis", value=f"{data.aphelion:,}km", inline=False)
+            embed.add_field(
+                name="Parent", value=data.aroundPlanet["planet"], inline=False
+            )
+
+    embed.add_field(
+        name="Semi-Major Axis", value=f"{data.semiMajorAxis:,}km", inline=False
+    )
+    embed.add_field(name="Eccentricity", value=data.eccentricity, inline=False)
+    embed.add_field(
+        name="Inclination", value=f"{data.inclination}\N{DEGREE SIGN}", inline=False
+    )
+    embed.add_field(name="Mass", value=data.mass)
+    embed.add_field(name="Volume", value=data.volume)
+    embed.add_field(name="Density", value=f"{data.density}g/cm\N{SUPERSCRIPT THREE}")
+    embed.add_field(
+        name="Gravity", value=f"{data.gravity}m/s\N{SUPERSCRIPT TWO}", inline=False
+    )
+    embed.add_field(name="Escape Velocity", value=f"{data.escape}m/s", inline=False)
+    embed.add_field(name="Mean Radius", value=f"{data.meanRadius}km")
+    embed.add_field(name="Equatorial Radius", value=f"{data.equaRadius}km")
+    embed.add_field(name="Polar Radius", value=f"{data.polarRadius}km")
+    embed.add_field(name="Flattening (??)", value=f"{data.flattening}", inline=False)
+    if data.discoveredBy != "":
+        embed.add_field(name="Discovered By", value=f"{data.discoveredBy}")
+        embed.add_field(name="Discovery Date", value=f"{data.discoveryDate}")
+    embed.add_field(
+        name="Axial Tilt", value=f"{data.axialTilt}\N{DEGREE SIGN}", inline=False
+    )
+    embed.add_field(name="Average Temperature", value=f"{data.avgTemp}K", inline=False)
+    embed.add_field(name="Long Ascending Node", value=data.longAscNode, inline=False)
+    await ctx.send(embed=embed)
 
 
 bot.run(TOKEN)
