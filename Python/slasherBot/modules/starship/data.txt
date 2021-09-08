@@ -1,78 +1,99 @@
 {
     "tfrs": [
         {
-            "_id": "6108700ab142650013021742",
+            "_id": "612ec02a5ef612001ae77f0c",
             "details": {
                 "uid": {
                     "type": "FDC",
                     "indexYear": "2011",
-                    "number": "9853",
-                    "dateIssued": "2021-08-02T22:18:00.000Z",
-                    "name": "1/9853",
-                    "guid": "6ff6917a-372e-49bf-931f-bddb42656d89"
+                    "number": "9481",
+                    "dateIssued": "2021-08-31T23:47:00.000Z",
+                    "name": "210901-30 Boca Chica 2 NMR Brownsville",
+                    "guid": "efe0c917-0ca7-4035-b3e1-b64ea0f78908"
                 },
-                "dateEffective": "2021-08-02T22:30:00.000Z",
-                "dateExpire": "2021-08-31T23:59:00.000Z",
+                "dateEffective": "2021-09-01T00:01:00.000Z",
+                "dateExpire": "2021-09-30T23:59:00.000Z",
                 "purpose": null,
                 "location": {
-                    "city": "BROWNSVILLE",
+                    "city": "Brownsville",
                     "state": "TEXAS"
                 },
                 "airspace": {
                     "upper": {
-                        "value": "5000",
+                        "value": "10000",
                         "unit": "FT",
                         "code": "ALT"
                     },
                     "lower": {
                         "value": "0",
                         "unit": "FT",
-                        "code": "ALT"
+                        "code": "HEI"
                     }
                 },
-                "pointOfContact": "SPACEX TEL",
-                "dateEffectiveString": "8/2/2021, 5:30 PM CDT",
-                "dateExpireString": "8/31/2021, 6:59 PM CDT",
-                "airspaceString": "Surface - 5,000 FT"
+                "pointOfContact": null,
+                "dateEffectiveString": "8/31/2021, 7:01 PM CDT",
+                "dateExpireString": "9/30/2021, 6:59 PM CDT",
+                "airspaceString": "Surface - 10,000 FT"
             },
             "isRemoved": false,
-            "date": "2021-08-02T22:18:00.000Z",
-            "slug": "1_9853",
-            "dateOriginal": "08/02/2021 2218",
-            "notam": "1/9853",
+            "date": "2021-08-31T23:45:00.000Z",
+            "slug": "1_9481",
+            "dateOriginal": "08/31/2021 2345",
+            "notam": "1/9481",
             "facility": "ZHU",
             "state": null,
             "description": null,
-            "link": "https://tfr.faa.gov/save_pages/detail_1_9853.html",
-            "createdAt": "2021-08-02T22:22:02.833Z",
-            "updatedAt": "2021-08-28T23:03:02.413Z",
+            "link": "https://tfr.faa.gov/save_pages/detail_1_9481.html",
+            "createdAt": "2021-08-31T23:50:02.708Z",
+            "updatedAt": "2021-09-06T08:38:02.193Z",
             "__v": 0,
             "isActive": true,
-            "length": "697 hours",
-            "interval": "10:30 pm \u2013 11:59 pm"
+            "length": "720 hours",
+            "interval": "12:01 am \u2013 11:59 pm"
         }
     ],
     "closures": [
         {
-            "_id": "612a41dbc1a7c3001ab8d869",
+            "_id": "6130dce08c690d001af2b21d",
             "isRemoved": false,
             "type": "Primary Date",
-            "originalDate": "\u00a0August 31, 2021",
-            "originalTime": "8:00 a.m. to 12:00 p.m.",
+            "originalDate": "Tuesday, September 7, 2021",
+            "originalTime": "7:30 a.m. to 11:30 a.m.",
             "status": "Intermittent Closure Scheduled\nBoca Chica will remain Open",
-            "slug": "august-31-2021-800-am-to-1200-pm",
-            "startDate": "2021-08-31T13:00:00.000Z",
-            "endDate": "2021-08-31T17:00:00.000Z",
-            "createdAt": "2021-08-28T14:02:03.894Z",
-            "updatedAt": "2021-08-28T23:03:03.559Z",
+            "slug": "tuesday-september-7-2021-730-am-to-1130-am",
+            "startDate": "2021-09-07T12:30:00.000Z",
+            "endDate": "2021-09-07T16:30:00.000Z",
+            "createdAt": "2021-09-02T14:17:04.334Z",
+            "updatedAt": "2021-09-06T08:38:06.452Z",
             "__v": 0,
             "isActive": false,
             "isCanceled": false,
             "isRevoked": false,
             "isConcluded": false,
-            "interval": "1:00 pm \u2013 5:00 pm",
-            "startDateString": "8/31/2021, 8:00 AM CDT",
-            "endDateString": "8/31/2021, 12:00 PM CDT"
+            "interval": "12:30 pm \u2013 4:30 pm",
+            "startDateString": "9/7/2021, 7:30 AM CDT",
+            "endDateString": "9/7/2021, 11:30 AM CDT"
+        },
+        {
+            "_id": "61328eef541017001adbb217",
+            "isRemoved": false,
+            "type": "Primary Date",
+            "originalDate": "Friday, September 10, 2021",
+            "originalTime": "9:30 a.m. to 11:30 a.m.",
+            "status": "Intermittent Closure Scheduled\nBoca Chica will remain Open",
+            "slug": "friday-september-10-2021-930-am-to-1130-am",
+            "startDate": "2021-09-10T14:30:00.000Z",
+            "endDate": "2021-09-10T16:30:00.000Z",
+            "createdAt": "2021-09-03T21:09:03.945Z",
+            "updatedAt": "2021-09-06T08:38:06.453Z",
+            "__v": 0,
+            "isActive": false,
+            "isCanceled": false,
+            "isRevoked": false,
+            "isConcluded": false,
+            "interval": "2:30 pm \u2013 4:30 pm",
+            "startDateString": "9/10/2021, 9:30 AM CDT",
+            "endDateString": "9/10/2021, 11:30 AM CDT"
         }
     ],
     "weather": {
@@ -82,42 +103,41 @@
         },
         "weather": [
             {
-                "id": 804,
-                "main": "Clouds",
-                "description": "overcast clouds",
-                "icon": "04d"
+                "id": 800,
+                "main": "Clear",
+                "description": "clear sky",
+                "icon": "01n"
             }
         ],
         "base": "stations",
         "main": {
-            "temp": 32.12,
-            "feels_like": 39.12,
-            "temp_min": 31.62,
-            "temp_max": 32.83,
-            "pressure": 1011,
-            "humidity": 66
+            "temp": 26.32,
+            "feels_like": 26.32,
+            "temp_min": 24.99,
+            "temp_max": 27.23,
+            "pressure": 1014,
+            "humidity": 84
         },
         "visibility": 10000,
         "wind": {
-            "speed": 2.68,
-            "deg": 64,
-            "gust": 6.26
+            "speed": 2.06,
+            "deg": 160
         },
         "clouds": {
-            "all": 100
+            "all": 1
         },
-        "dt": 1630191339,
+        "dt": 1630917017,
         "sys": {
             "type": 2,
             "id": 2005669,
             "country": "US",
-            "sunrise": 1630152531,
-            "sunset": 1630198430
+            "sunrise": 1630930350,
+            "sunset": 1630975463
         },
         "timezone": -18000,
         "id": 4676740,
         "name": "Brownsville",
         "cod": 200
     },
-    "lastUpdatedDate": "2021-08-28T23:03:04.590Z"
+    "lastUpdatedDate": "2021-09-06T08:38:07.478Z"
 }

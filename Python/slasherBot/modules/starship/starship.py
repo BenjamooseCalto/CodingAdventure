@@ -120,7 +120,7 @@ class Weather:
 class RoadClosure:
     def __init__(self, closure):
         self.info = closure
-        self.status = self.get_status(self.info)
+        self.status = "ACTIVE" if self.get_status() == True else "Inactive"
         self.active = self.info["isActive"]
 
     def __str__(self):
@@ -130,24 +130,11 @@ class RoadClosure:
             Closure Status: {self.info['status']}
             """
 
-    def get_status(self, info):
-        status = {
-            "active": info["isActive"],
-            "cancel": info["isCanceled"],
-            "revoked": info["isRevoked"],
-            "conclude": info["isConcluded"],
-            "removed": info["isRemoved"],
-        }
-        if status["active"] == True:
-            return "Active"
-        elif status["cancel"] == True:
-            return "Cancelled"
-        elif status["revoked"] == True:
-            return "Revoked"
-        elif status["conclude"] == True:
-            return "Concluded"
-        elif status["removed"] == True:
-            return "Removed"
+    def get_status(self):
+        if self.info["isActive"] == True:
+            return True
+        else:
+            return False
 
 
 class StarshipRequest:  # this will handle requests made for specific information, probably will add more info about Starship in general, without using the API from above
@@ -157,7 +144,7 @@ class StarshipRequest:  # this will handle requests made for specific informatio
 
 
 def main():
-    data = StarshipStatus(update=True)
+    data = StarshipStatus(update=False)
     data.show()
 
 

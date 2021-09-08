@@ -1,22 +1,18 @@
 import os
 import discord
 import openai
-import modules.slasherUtils as Slasher
+import logging
 
 from modules.math.threex import magicmath
 from modules.starship.starship import StarshipStatus
 from modules.nasa.nasa import apod
 from modules.space.orbits import OrbitInformation
 from discord_slash.model import SlashCommandPermissionType
-from random import randrange, randint
-from discord.channel import CategoryChannel
-from discord_slash.context import InteractionContext
+from random import randint
 from dotenv import load_dotenv
 from discord.ext import commands
-from discord.utils import get
 from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_commands import (
-    create_choice,
     create_option,
     create_permission,
 )
@@ -35,6 +31,9 @@ OWNER = str(os.getenv("OWNER"))
 OPENAI_FINE_TUNE_MODEL = str(os.getenv("FINE_TUNE_MODEL"))
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+DIR = os.path.dirname(__file__)
+LOG_FILE = os.path.join(DIR, "slasherBot.log")
+
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
@@ -44,6 +43,15 @@ def isOwner(author):
         return True
     else:
         return False
+
+
+logger = logging.getLogger("discord")
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename=LOG_FILE, encoding="utf-8", mode="w")
+handler.setFormatter(
+    logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
+)
+logger.addHandler(handler)
 
 
 @bot.event
@@ -74,7 +82,7 @@ async def cleanchat(ctx: SlashContext):
             i += 1
             await message.delete()
             print("message deleted")
-    Slasher.logToFile(ctx.author, ctx.guild_id, "cleanchat", count=i)
+    # Slasher.logToFile(ctx.author, ctx.guild_id, "cleanchat", count=i)
 
 
 @slash.slash(  # this rolls the bones, inputs are size, and count - size is the size of the die, count is how many dice you wish to roll
@@ -119,6 +127,8 @@ async def slashRoll(
     for roll in rolls:
         embed.add_field(name=f"Roll {n}:", value=roll, inline=False)
         n += 1
+        if n >= 10:
+            break
 
     embed.add_field(name="Total: ", value=sum(rolls), inline=False)
     await ctx.send(embed=embed)
@@ -148,7 +158,7 @@ async def finishSentence(ctx: SlashContext, input):
     )
     response = response["choices"][0]["text"]
 
-    Slasher.logToFile(ctx.author, ctx.guild_id, "openai", engine="ada", input=input)
+    # Slasher.logToFile(ctx.author, ctx.guild_id, "openai", engine="ada", input=input)
     await ctx.send("Input: " + input + "\n\n" + input + response)
 
 
@@ -216,11 +226,10 @@ async def starship(ctx: SlashContext):
         name=f"Current Weather in {data.location}:", value=data.weather, inline=False
     )
     embed.add_field(name="Active TFR's:", value=data.num_tfrs, inline=False)
-    embed.add_field(
-        name="Active Road Closures: ", value=data.num_closures, inline=False
-    )
     for closure in data.closures:
-        embed.add_field(name=f"Closure {closure.status}:", value=closure, inline=False)
+        embed.add_field(
+            name=f"Road Closure [{closure.status}]:", value=closure, inline=False
+        )
 
     await ctx.send(embed=embed)
 
