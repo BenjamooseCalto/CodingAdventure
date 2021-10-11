@@ -1,13 +1,15 @@
 import os
 import discord
+from discord_slash.context import MenuContext
 import openai
 import logging
+import requests
 
 from modules.math.threex import magicmath
 from modules.starship.starship import StarshipStatus
 from modules.nasa.nasa import apod
 from modules.space.orbits import OrbitInformation
-from discord_slash.model import SlashCommandPermissionType
+from discord_slash.model import ContextMenuType, SlashCommandPermissionType
 from random import randint
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -26,15 +28,23 @@ LIVEGUILDID = int(os.getenv("DISCORD_LIVEGUILDID"))
 LIVEOWNERROLE = int(os.getenv("DISCORD_LIVEOWNERROLE"))
 LIVEADMINROLE = int(os.getenv("DISCORD_LIVEADMINROLE"))
 LIVEADMINROLE2 = int(os.getenv("DISCORD_LIVEADMINROLE2"))
+OWNERID = os.getenv("DISCORD_OWNERID")
+
 APPID = os.getenv("DISCORD_APPID")
 OWNER = str(os.getenv("OWNER"))
 OPENAI_FINE_TUNE_MODEL = str(os.getenv("FINE_TUNE_MODEL"))
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+DISCORD_API_URL = "https://discord.com/api/v9"
+CMDS_URL = (
+    f"https://discord.com/api/v9/applications/{APPID}/guilds/{TESTGUILDID}/commands"
+)
+CMDS_GLOBAL_URL = f"https://discord.com/api/v9/applications/{APPID}/commands"
+
 DIR = os.path.dirname(__file__)
 LOG_FILE = os.path.join(DIR, "slasherBot.log")
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all(), owner_id=OWNERID)
 slash = SlashCommand(bot, sync_commands=True)
 
 
@@ -43,6 +53,13 @@ def isOwner(author):
         return True
     else:
         return False
+
+
+def create_app_command(command):
+    url = CMDS_URL if command.isGlobal == False else CMDS_GLOBAL_URL
+    appCommand = requests.post(url, headers=command.headers, json=command.data)
+
+    return appCommand
 
 
 logger = logging.getLogger("discord")
@@ -54,9 +71,27 @@ handler.setFormatter(
 logger.addHandler(handler)
 
 
+# app_commands = []
+# for command in appCommands.ACTIVE_COMMANDS:
+#    app_commands.append(create_app_command(command))
+
+
 @bot.event
 async def on_ready():
     print(f"{bot.user.name} has connected to Discord!")
+
+
+@slash.context_menu(
+    target=ContextMenuType.USER, name="Summon", guild_ids=[LIVEGUILDID, TESTGUILDID]
+)
+async def Summon(ctx: MenuContext):
+    chan = await ctx.target_author.create_dm()
+    if ctx.author.voice == None:
+        msg = f"{ctx.author.name} has summoned you!"
+    else:
+        msg = f"{ctx.author.name} has summoned you to {ctx.author.voice.channel}!"
+    await chan.send(msg)
+    await ctx.reply(f"> Summoned {ctx.target_author.display_name}")
 
 
 @slash.slash(  # this command removes the [Original Message Deleted] messages from the free games channel
@@ -337,4 +372,5 @@ async def orbit(ctx: SlashContext, body):
     await ctx.send(embed=embed)
 
 
-bot.run(TOKEN)
+if __name__ == "__main__":
+    bot.run(TOKEN)
