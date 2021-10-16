@@ -4,7 +4,7 @@ import os
 
 URL = "https://starshipstatus.space/api/data"  # api by @NoahPrail on Twitter
 DIR = os.path.dirname(__file__)
-DATA_FILE = os.path.join(DIR, "data.txt")
+DATA_FILE = os.path.join(DIR, "starship.json")
 
 
 class StarshipStatus:

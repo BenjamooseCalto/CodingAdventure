@@ -5,7 +5,7 @@ import os
 
 URL = "https://api.le-systeme-solaire.net/rest/bodies/"
 DIR = os.path.dirname(__file__)
-DATA_FILE = os.path.join(DIR, "data.txt")
+DATA_FILE = os.path.join(DIR, "orbits.json")
 
 
 class OrbitInformation:

@@ -1,19 +1,18 @@
 import os
 import discord
-from discord_slash.context import MenuContext
 import openai
 import logging
-import requests
 
 from modules.math.threex import magicmath
 from modules.starship.starship import StarshipStatus
-from modules.nasa.nasa import apod
+from modules.nasa.nasa import Apod
 from modules.space.orbits import OrbitInformation
 from discord_slash.model import ContextMenuType, SlashCommandPermissionType
 from random import randint
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
+from discord_slash.context import MenuContext
 from discord_slash.utils.manage_commands import (
     create_option,
     create_permission,
@@ -55,25 +54,13 @@ def isOwner(author):
         return False
 
 
-def create_app_command(command):
-    url = CMDS_URL if command.isGlobal == False else CMDS_GLOBAL_URL
-    appCommand = requests.post(url, headers=command.headers, json=command.data)
-
-    return appCommand
-
-
 logger = logging.getLogger("discord")
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename=LOG_FILE, encoding="utf-8", mode="w")
+handler = logging.FileHandler(filename=LOG_FILE, encoding="utf-8", mode="a")
 handler.setFormatter(
     logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s")
 )
 logger.addHandler(handler)
-
-
-# app_commands = []
-# for command in appCommands.ACTIVE_COMMANDS:
-#    app_commands.append(create_app_command(command))
 
 
 @bot.event
@@ -91,7 +78,6 @@ async def Summon(ctx: MenuContext):
     else:
         msg = f"{ctx.author.name} has summoned you to {ctx.author.voice.channel}!"
     await chan.send(msg)
-    await ctx.reply(f"> Summoned {ctx.target_author.display_name}")
 
 
 @slash.slash(  # this command removes the [Original Message Deleted] messages from the free games channel
@@ -117,7 +103,6 @@ async def cleanchat(ctx: SlashContext):
             i += 1
             await message.delete()
             print("message deleted")
-    # Slasher.logToFile(ctx.author, ctx.guild_id, "cleanchat", count=i)
 
 
 @slash.slash(  # this rolls the bones, inputs are size, and count - size is the size of the die, count is how many dice you wish to roll
@@ -193,7 +178,6 @@ async def finishSentence(ctx: SlashContext, input):
     )
     response = response["choices"][0]["text"]
 
-    # Slasher.logToFile(ctx.author, ctx.guild_id, "openai", engine="ada", input=input)
     await ctx.send("Input: " + input + "\n\n" + input + response)
 
 
@@ -275,10 +259,25 @@ async def starship(ctx: SlashContext):
     guild_ids=[TESTGUILDID, LIVEGUILDID],
 )
 async def slashApod(ctx: SlashContext):
-    await ctx.send(apod())
+    apod = Apod()
+    apod.get_apod()
+    img = apod.hdurl if apod.hdurl != None else apod.url
+    embed = discord.Embed(
+        title="Astronomy Picture of the Day",
+        description=f"{apod.title} by {apod.copyright}",
+        colour=discord.Colour.purple(),
+    )
+    embed.set_footer(text=f"Date: {apod.date}")
+    embed.set_author(
+        name="NASA",
+        icon_url="https://api.nasa.gov/assets/img/favicons/favicon-192.png",
+    )
+    embed.add_field(name="Explanation", value=apod.explanation)
+    embed.set_image(url=img)
+    await ctx.send(embed=embed)
 
 
-@slash.slash(
+@slash.slash(  # this uses cool math to make any number converge down to 1, and then tells the user the largest number it rose to, and how many steps it took to get to 1
     name="threex",
     description="Math Magic",
     guild_ids=[TESTGUILDID, LIVEGUILDID],
@@ -295,7 +294,7 @@ async def three_x(ctx: SlashContext, number):
     await ctx.send(f"> {magicmath(number)}")
 
 
-@slash.slash(
+@slash.slash(  # this makes an API call to "Le-Systeme Solaire" and retrieved orbital information about the requested body
     name="orbit",
     description="Get Orbital information about a given body in our Solar System",
     guild_ids=[TESTGUILDID, LIVEGUILDID],
