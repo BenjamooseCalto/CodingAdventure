@@ -1,0 +1,10 @@
+{
+    "name": "testRace",
+    "characteristics": {
+        "tail": "test tail",
+        "ears": "test ears"
+    },
+    "attribute_modifiers": {
+        "dexterity": 1.5
+    }
+}

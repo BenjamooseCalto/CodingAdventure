@@ -1,0 +1,44 @@
+{
+    "name": "bill",
+    "mutable_attributes": {
+        "strength": 10,
+        "charisma": 10,
+        "wisdom": 10,
+        "dexterity": 10,
+        "constitution": 10,
+        "intelligence": 10,
+        "perception": 10
+    },
+    "health": {
+        "hp": 0,
+        "armor": 0
+    },
+    "modifiers": {
+        "strength_mod": 0,
+        "charisma_mod": 0,
+        "wisdom_mod": 0,
+        "dexterity_mod": 0,
+        "constitution_mod": 0,
+        "intelligence_mod": 0,
+        "perception_mod": 0
+    },
+    "inventory": {
+        "max_size": 40,
+        "max_weight": 80.8,
+        "items": [
+            {
+                "name": "test sword",
+                "weight": 10,
+                "properties": {
+                    "test property": "test value"
+                },
+                "weight_unit": "lbs"
+            }
+        ]
+    },
+    "race": null,
+    "units": {
+        "singular": "lb",
+        "plural": "lbs"
+    }
+}
