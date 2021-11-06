@@ -50,3 +50,5 @@ Python/scratch/
 Python/Pytorch/SpeechCommands/
 *.gz
 Python/Pytorch/
+/Pytorch/
+Python/gps/data/ping.txt
