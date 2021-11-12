@@ -1,9 +1,6 @@
-#ok so there is a solar flare approaching earth and will hit it in a few days, I want to test as many of its effects as possible.
-
 import os
 import ctypes
 import time
-import threading
 import subprocess
 import numpy as np
 
