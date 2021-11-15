@@ -1,20 +1,57 @@
-import pygame
+import requests
+import asyncio
 
-pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-done = False
+APP_DATA = {
+    "title": "Razer Chroma SDK RESTful Test Application",
+    "description": "This is a REST interface test application",
+    "author": {
+        "name": "TestApp",
+        "contact": "N/A"
+    },
+    "device_supported": [
+        "keyboard",
+        "keypad",],
+    "category": "application"
+}
 
-red = (255, 0, 0)
-blue = (0, 100, 255)
-gravity = 9.8**2
+class RazerChromaConnection: #upon creating the connection, you have to keep the connection alive by sending heartbeats every "x" seconds. connections expire after 15 seconds
+    def __init__(self, data:dict=APP_DATA):
+        self.loop = asyncio.new_event_loop()
 
-while not done:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
+        r = requests.post("http://localhost:54235/razer/chromasdk", json=data)
+        r = r.json()
 
-    pygame.draw.rect(screen, (0, 128, 255), pygame.Rect(30, 30, 60, 60))
+        self.session_id = r["sessionid"]
+        self.uri = r["uri"]
+
+    async def heartbeat(self) -> int:
+        r = requests.put(f"{self.uri}/heartbeat")
+        print("Heartbeat Sent")
+
+        self.tick = r.json()["tick"]
+        self.loop.call_later(1, self.heartbeat)
+        return await self.tick
+
+    async def add_effect(self, device:str, effect:dict) -> int:
+        match device:
+            case "keyboard": device = "/keyboard"
+            case "keypad": device = "/keypad"
+
+        r = requests.post(f"{self.uri}/{device}", json=effect)
+
+        effect_id = r.json()["effectid"]
+        await print(f"Effect [{effect_id}] Added")
     
+    async def run(self):
+        self.loop.call_soon(self.heartbeat)
+        self.loop.run_until_complete(asyncio.sleep(10))
+        if self.loop.is_running():
+            print("running")
+        else:
+            print("dead")
+        
+        await self.loop.close()
 
-    pygame.display.flip()
-    
+if __name__ == "__main__":
+    conn = RazerChromaConnection()
+    conn.run()
