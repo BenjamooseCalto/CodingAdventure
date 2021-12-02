@@ -54,3 +54,7 @@ Python/Pytorch/
 Python/gps/data/ping.txt
 Python/Selenium/webdrivers/chromedriver.exe
 Python/scratch/scratch.py
+Python/air/
+Python/SpaceXGraphing/analysed_data.json
+Python/SpaceXGraphing/data.json
+TwitterBot/twitter.py
