@@ -60,3 +60,7 @@ Python/SpaceXGraphing/data.json
 TwitterBot/twitter.py
 Python/Selenium/
 Python/OpenCV/
+Python/postgreSQL/main.py
+Python/careerAdventure/graph_maker.py
+Astro/orbits.ipynb
+Astro/main.py

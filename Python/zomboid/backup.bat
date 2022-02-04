@@ -1,0 +1,10 @@
+@ECHO OFF
+
+set ZOMBOID_DIR=
+set DESTINATION_DIR=
+set BACKUP_NAME=
+set IS_MP=False
+
+python zomboidBackup.py %ZOMBOID_DIR% %DESTINATION_DIR% %BACKUP_NAME% %IS_MP%
+
+pause
