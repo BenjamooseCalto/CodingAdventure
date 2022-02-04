@@ -39,15 +39,10 @@ def validate_input():
         raise ValueError(
             f"Invalid number of arguments, expected 3, got {len(sys.argv) - 1}."
         )
-
-    if sys.argv[4] != True or False:
-        if sys.argv[4] == "true":
-            sys.argv[4] = True
-        if sys.argv[4] == "false":
-            sys.argv[4] = False
-        if sys.argv[4] != True or False:
-            logging.error(f"IS_MP must be true or false, got {sys.argv[4]}, exiting...")
-            raise ValueError(f"IS_MP must be a boolean, got {sys.argv[4]}")
+    sys.argv[4] = sys.argv[4] == "True"
+    if not isinstance(sys.argv[4], bool):
+        logging.error(f"IS_MP must be true or false, got {sys.argv[4]}, exiting...")
+        raise ValueError(f"IS_MP must be a boolean, got {sys.argv[4]}")
 
 
 ZOMBOID_DIR = sys.argv[1]
@@ -138,7 +133,7 @@ def get_date():
 
 
 if __name__ == "__main__":
-    #print(
+    # print(
     #    "Thanks for using my Zomboid backup script! If you encounter any errors, or have questions, please contact Pwnsome#0367 on Discord.\n\n"
-    #)
+    # )
     start_backup(BACKUP_NAME)
