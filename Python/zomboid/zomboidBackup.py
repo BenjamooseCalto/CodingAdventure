@@ -133,7 +133,7 @@ def get_date():
 
 
 if __name__ == "__main__":
-    # print(
-    #    "Thanks for using my Zomboid backup script! If you encounter any errors, or have questions, please contact Pwnsome#0367 on Discord.\n\n"
-    # )
+    print(
+        "Thanks for using my Zomboid backup script! If you encounter any errors, or have questions, please contact Pwnsome#0367 on Discord.\n\n"
+    )
     start_backup(BACKUP_NAME)
